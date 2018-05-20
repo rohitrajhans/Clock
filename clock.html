@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Clock</title>
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+</head>
+<style type="text/css">
+	body {
+		padding: 0;
+		margin: 0;
+		background: url('background.jpg');
+		background-size: cover;
+	}
+
+	.o-circle {
+		height: 15em;
+		width: 15em;
+		border: 0.5em solid #1f0f4d;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	.m-hand, .h-hand, .s-hand {
+		display: none;
+		position: absolute;
+		height: 0.2em;
+		width: 40%;
+		background: black;
+		top: 50%;
+		left: 50%;
+		transform-origin: 0%;
+		transform: rotate(-90deg);
+		transition: all 0.1s cubic-bezier(0.42, 0, 1, 1.71);
+		background-color: white;
+	}
+	.s-hand {
+		width: 45%;
+		background-color: orange;
+	}
+	.h-hand {
+		width: 35%;
+		height: 0.3em;
+		background-color: green;
+	}
+
+	.title {
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%,0);
+		font-family: 'Gloria Hallelujah', cursive;
+		font-size: 3em;
+		color: #690083;
+	}
+
+</style>
+<body>
+	<div class="container">
+		<div class="title">
+			<div class="day"> </div>
+			<div class="date"> </div>
+		</div>
+		<div class="o-circle"> 
+			<div class="m-hand"> </div>
+			<div class="h-hand"> </div>
+			<div class="s-hand"> </div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		function getTime()
+		{
+			var time = new Date();
+			var seconds = time.getSeconds();
+			var minutes = time.getMinutes();
+			var hours = time.getHours();
+			var secondDegrees = (seconds/60)*360 - 90;
+			var minuteDegrees = (minutes/60)*360 -90;
+			var hourDegrees = (hours/12)*360 - 90;
+			document.querySelector('.s-hand').style.transform = 'rotate(' + secondDegrees + 'deg)';
+			document.querySelector('.m-hand').style.transform = 'rotate(' + minuteDegrees + 'deg)';
+			document.querySelector('.h-hand').style.transform = 'rotate(' + hourDegrees + 'deg)';
+			if( 264 < secondDegrees < 276 )
+			{
+				document.querySelector('.s-hand').style.transition = 'none';  
+			}
+			if( 264 < minuteDegrees < 276 )
+			{
+				document.querySelector('.m-hand').style.transition = 'none';  
+			}
+			if( 264 < hourDegrees < 276 )
+			{
+				document.querySelector('.h-hand').style.transition = 'none';  
+			}
+		}
+		setInterval( getTime, 1000);
+		setTimeout( function() { document.querySelector('.s-hand').style.display = 'block'; }, 1000 );
+		setTimeout( function() { document.querySelector('.m-hand').style.display = 'block'; }, 1000 );
+		setTimeout( function() { document.querySelector('.h-hand').style.display = 'block'; }, 1000 );
+
+		var time = new Date();
+		day = time.getDay();
+		date = time.getDate();
+		month = time.getMonth() + 1;
+		year = time.getYear() + 1900;
+		date = date + "/" + month + "/" + year;
+		switch( day )
+		{
+			case 0: day = "Sunday"; break;
+			case 1: day = "Monday"; break;
+			case 2: day = "Tuesday"; break;
+			case 3: day = "Wednesday"; break;
+			case 4: day = "Thursday"; break;
+			case 5: day = "Friday"; break;
+			case 6: day = "Saturday"; break;
+		}
+		document.querySelector('.day').innerHTML = '<span>' + day + '<span';
+		document.querySelector('.date').innerHTML = '<span>' + date + '</span';
+	</script>
+</body>
+</html>
